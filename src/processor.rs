@@ -52,14 +52,17 @@ impl Processor {
 
         let mut vote_data = vote_data_account.try_borrow_mut_data()?;
 
-        let vote = Vote::unpack_unchecked(&vote_data)?;
+        let mut vote = Vote::unpack_unchecked(&vote_data)?;
 
         if vote.is_initialized {
             msg!("Vote has already been initialized");
             return Err(VoteError::VoteDataAccountAlreadyInitialized.into());
         }
 
+        vote.is_initialized = true;
+
         msg!("Creating Vote with title {:?}", from_utf8(&vote.title).unwrap());
+        msg!("New Vote: {:?}", vote);
         Vote::pack(vote, &mut vote_data).expect("Failed to write to vote data account");
         msg!("Vote created");
 
@@ -78,6 +81,8 @@ impl Processor {
             return Err(ProgramError::InvalidAccountData);
         }
         // msg!("voter_data {:?}", vote_data_account.clone());
+
+        msg!("Vote account data, {:?}", vote_data_account);
 
         let vote_data = vote_data_account.try_borrow_mut_data()?;
 
@@ -105,7 +110,7 @@ impl Processor {
 
         let expected_voter_data_account = Pubkey::create_with_seed(voter_account.key, seed, program_id)?;
         if expected_voter_data_account != *voter_data_account.key {
-            msg!("Voter data account is not valid");
+            msg!("Voter data account [{:?}] is not valid, not equal to expected [{:?}]", *voter_data_account.key, expected_voter_data_account);
             return Err(ProgramError::InvalidAccountData); 
         }
 

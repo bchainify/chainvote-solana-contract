@@ -52,7 +52,7 @@ impl Pack for Vote {
     fn unpack_from_slice(src: &[u8]) -> Result<Self, ProgramError> {
         let yes = LittleEndian::read_u32(&src[0..4]);
         let no = LittleEndian::read_u32(&src[4..8]);
-        let is_initialized = *array_ref![src, 1, 1];
+        let is_initialized = *array_ref![src, 8, 1];
         let is_initialized = match is_initialized {
             [0] => false,
             [1] => true,
