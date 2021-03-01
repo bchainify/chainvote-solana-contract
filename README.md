@@ -3,6 +3,9 @@
 
 [Bchainify Chainvote on Solana](https://www.youtube.com/watch?v=ZTe1iIL50yI&feature=emb_logo)
 
+# Project Demo 
+[Bchainify Chainvote Dapp Demo](https://www.youtube.com/watch?v=3HgVMl-DlsQ)
+
 # Project Wiki
 [Bchainify Chainvote on Solana Project Site](https://github.com/bchainify/chainvote-solana/wiki)
 
