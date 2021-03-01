@@ -1,4 +1,4 @@
-# Bchainify Chainvote contract for solana blockchain
+# Bchainify Chainvote Contract for Solana Blockchain
   # Project Video
 
 [Bchainify Chainvote on Solana](https://www.youtube.com/watch?v=KT5GeZ5lXjU)
