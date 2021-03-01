@@ -31,7 +31,7 @@ Our project is to build an environment of trust, transparency, and accountabilit
 
 # Challenges we ran into
 
-First time using Solana rust smart contract.
+First time using Solana platform and rust smart contract.
 
 # Technologies we used
 
