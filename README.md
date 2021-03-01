@@ -39,6 +39,7 @@ First time using Solana rust smart contract.
 * Microsoft Whiteboard for User Story Flowchart UML activity diagrams
 * TypeScript
 * CSS
+* Next.Js 
 * Javascript
 * Project Github Frontend: https://github.com/bchainify/chainvote-sol-frontend
 * Project Github SOL Smart Contract: https://github.com/bchainify/chainvote-solana-contract
