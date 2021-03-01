@@ -37,7 +37,7 @@ First time using Solana rust smart contract.
 * TypeScript
 * CSS
 * Javascript
-* Project Github Frontend: https://github.com/bchainify/chainvote-solana-frontend
+* Project Github Frontend: https://github.com/bchainify/chainvote-sol-frontend
 * Project Github SOL Smart Contract: https://github.com/bchainify/chainvote-solana-contract
 
 # Screenshots
