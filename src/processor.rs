@@ -12,6 +12,8 @@ use thiserror::Error;
 use std::mem::size_of;
 use std::str::from_utf8;
 use crate::{state::{Vote, Voter}};
+use arrayref::{array_ref};
+
 
 
 
@@ -23,9 +25,9 @@ impl Processor {
         let _program_id = program_id;
         let instruction = VoteInstruction::unpack(input)?; 
         match instruction {
-            VoteInstruction::NewVote => {
+            VoteInstruction::NewVote {vote_title} => {
                 msg!("Instruction NewVote");
-                Self::process_newvote(program_id, accounts)
+                Self::process_newvote(program_id, accounts, &vote_title)
             }
             VoteInstruction::AddUser => {
                 msg!("Instruction AddUser");
@@ -38,7 +40,7 @@ impl Processor {
         }
     }
 
-    pub fn process_newvote(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
+    pub fn process_newvote(program_id: &Pubkey, accounts: &[AccountInfo], vote_title: &[u8; 10]) -> ProgramResult {
         msg!("process new vote+++");
         let _account = accounts;
         let _program_id = program_id;
@@ -60,6 +62,7 @@ impl Processor {
         }
 
         vote.is_initialized = true;
+        vote.title = *vote_title;
 
         msg!("Creating Vote with title {:?}", from_utf8(&vote.title).unwrap());
         msg!("New Vote: {:?}", vote);
@@ -187,7 +190,7 @@ impl Processor {
 #[repr(C)]
 #[derive(Clone, Debug, PartialEq)]
 pub enum VoteInstruction {
-    NewVote,
+    NewVote { vote_title: [u8; 10] },
     AddUser,
     Vote {is_vote_for: bool},
 }
@@ -196,7 +199,10 @@ impl VoteInstruction {
     pub fn unpack(input: &[u8]) -> Result<Self, ProgramError> {
         let (&tag, rest) = input.split_first().ok_or(VoteError::InvalidInstruction)?;
         Ok(match tag {
-            0 => Self::NewVote,
+            0 => {
+                let vote_title = *array_ref![rest, 0, 10];
+                Self::NewVote {vote_title}
+            },
             1 => Self::AddUser,
             2 => {
                 let (&is_vote_for, _rest) = rest.split_first().ok_or(VoteError::InvalidInstruction)?;
@@ -213,7 +219,11 @@ impl VoteInstruction {
     pub fn pack(&self) -> Vec<u8> {
         let mut buf = Vec::with_capacity(size_of::<Self>());
         match self {
-            Self::NewVote => buf.push(0),
+            Self::NewVote{vote_title}=> {
+                let _vote_title = vote_title;
+                buf.push(0);
+                buf.push(10);
+            },
             Self::AddUser => buf.push(1),
             Self::Vote{is_vote_for} => {
                 buf.push(3);
